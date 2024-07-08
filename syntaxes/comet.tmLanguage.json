@@ -42,22 +42,26 @@
         },
 		"another_keywords": {
             "patterns": [{
-                "name": "define.comet",
+                "name": "keyword.control.less",
                 "match": "\\b(var|def)\\b"
             }]
         },
         "command": {
             "patterns": [{
-                "name": "command.comet",
+                "name": "keyword.control.less",
                 "match": "^\/.*$"
             },
 			{
-                "name": "command.comet",
+                "name": "keyword.control.less",
                 "match": "^ {1,}\/.*$"
             },
 			{
-                "name": "command.comet",
+                "name": "keyword.control.less",
                 "match": "@[parsen]"
+            },
+			{
+                "name": "keyword.control.less",
+                "match": "(0|1)b"
             }]
         },
         "strings": {
