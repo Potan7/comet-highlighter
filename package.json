@@ -1,0 +1,32 @@
+{
+  "name": "comet-highlighter",
+  "displayName": "Comet Highlighter",
+  "description": "This is the highlighter of comet(datapack compiler) by 40planet",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.91.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "themes": [
+        {
+            "label": "Comet Theme",
+            "uiTheme": "vs-dark",
+            "path": "./themes/comet-color-theme.json"
+        }
+    ],
+    "languages": [{
+      "id": "comet",
+      "aliases": ["Comet", "comet"],
+      "extensions": [".planet"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "comet",
+      "scopeName": "source.planet",
+      "path": "./syntaxes/comet.tmLanguage.json"
+    }]
+  }
+}

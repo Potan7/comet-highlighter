@@ -1,0 +1,1 @@
+execute as @a run tellraw @a "asdf"
