@@ -37,30 +37,30 @@
         "keywords": {
             "patterns": [{
                 "name": "keyword.control.comet",
-                "match": "\\b(if|while|execute|return|import)\\b"
+                "match": "\\b(if|while|execute|return|import|else|unless)\\b"
             }]
         },
 		"another_keywords": {
             "patterns": [{
-                "name": "keyword.control.less",
-                "match": "\\b(var|def)\\b"
+                "name": "keyword.other",
+                "match": "\\b(var|def|true|false)\\b"
             }]
         },
         "command": {
             "patterns": [{
-                "name": "keyword.control.less",
+                "name": "keyword.other",
                 "match": "^\/.*$"
             },
 			{
-                "name": "keyword.control.less",
+                "name": "keyword.other",
                 "match": "^ {1,}\/.*$"
             },
 			{
-                "name": "keyword.control.less",
+                "name": "keyword.other",
                 "match": "@[parsen]"
             },
 			{
-                "name": "keyword.control.less",
+                "name": "keyword.other",
                 "match": "(0|1)b"
             }]
         },
