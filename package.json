@@ -16,25 +16,16 @@
     "Programming Languages"
   ],
   "contributes": {
-    "languages": [
-      {
-        "id": "comet",
-        "aliases": [
-          "Comet",
-          "comet"
-        ],
-        "extensions": [
-          ".planet"
-        ],
-        "configuration": "./language-configuration.json"
-      }
-    ],
-    "grammars": [
-      {
-        "language": "comet",
-        "scopeName": "source.planet",
-        "path": "./syntaxes/comet.tmLanguage.json"
-      }
-    ]
+    "languages": [{
+      "id": "comet",
+      "aliases": ["Comet", "comet"],
+      "extensions": [".planet"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "comet",
+      "scopeName": "source.planet",
+      "path": "./syntaxes/comet.tmLanguage.json"
+    }]
   }
 }
