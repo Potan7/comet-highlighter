@@ -3,7 +3,7 @@
   "licence": "MIT",
   "displayName": "Comet Highlighter",
   "description": "This is the highlighter of comet(datapack compiler) by 40planet",
-  "version": "0.0.2",
+  "version": "1.0.4",
   "publisher": "alexmonkey05",
   "repository": {
     "type": "git",
@@ -16,25 +16,16 @@
     "Programming Languages"
   ],
   "contributes": {
-    "languages": [
-      {
-        "id": "comet",
-        "aliases": [
-          "Comet",
-          "comet"
-        ],
-        "extensions": [
-          ".planet"
-        ],
-        "configuration": "./language-configuration.json"
-      }
-    ],
-    "grammars": [
-      {
-        "language": "comet",
-        "scopeName": "source.planet",
-        "path": "./syntaxes/comet.tmLanguage.json"
-      }
-    ]
+    "languages": [{
+      "id": "comet",
+      "aliases": ["Comet", "comet"],
+      "extensions": [".planet"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "comet",
+      "scopeName": "source.planet",
+      "path": "./syntaxes/comet.tmLanguage.json"
+    }]
   }
 }
