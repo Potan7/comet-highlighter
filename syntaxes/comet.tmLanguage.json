@@ -348,7 +348,7 @@
           "begin": "^(\\s*/\\s*)(say)",
           "beginCaptures": {
             "1": {
-              "name": "whitespace.mcfunction"
+              "name": "keyword.other.mcfunction"
             },
             "2": {
               "name": "keyword.control.flow.mcfunction"
@@ -414,7 +414,7 @@
         {
           "captures": {
             "1": {
-              "name": "whitespace.mcfunction"
+              "name": "keyword.other.mcfunction"
             },
             "2": {
               "name": "keyword.control.flow.mcfunction"
@@ -426,10 +426,10 @@
         {
           "captures": {
             "1": {
-              "name": "whitespace.mcfunction"
+              "name": "keyword.other.mcfunction"
             },
             "2": {
-              "name": "markup.italic.mcfunction"
+              "name": "keyword.other.mcfunction"
             },
             "3": {
               "name": "whitespace.mcfunction"
@@ -444,7 +444,7 @@
         {
           "captures": {
             "1": {
-              "name": "entity.name.mcfunction"
+              "name": "keyword.other.mcfunction"
             },
             "2": {
               "name": "whitespace.mcfunction"
