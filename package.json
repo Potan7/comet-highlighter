@@ -1,6 +1,6 @@
 {
   "name": "comet-highlighter",
-  "licence": "MIT",
+  "license": "MIT",
   "displayName": "Comet Highlighter",
   "description": "This is the highlighter of comet(datapack compiler) by 40planet",
   "version": "1.0.11",
@@ -15,26 +15,45 @@
   "categories": [
     "Programming Languages"
   ],
+  "main": "./out/extension.js",
   "contributes": {
     "languages": [
       {
-        "id": "comet",
-        "aliases": [
-          "Comet",
-          "comet"
-        ],
-        "extensions": [
-          ".planet"
-        ],
+        "id": "planet",
+        "aliases": ["Planet", "planet"],
+        "extensions": [".planet"],
         "configuration": "./language-configuration.json"
       }
     ],
     "grammars": [
       {
-        "language": "comet",
+        "language": "planet",
         "scopeName": "source.planet",
         "path": "./syntaxes/comet.tmLanguage.json"
       }
+    ],
+    "commands": [
+      {
+        "command": "comet.compile",
+        "title": "Comet: Compile current workspace"
+      }
     ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -p ./ -w",
+    "build": "npm run compile",
+    "vscode:prepublish": "npm run build",
+    "package": "vsce package"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "@types/node": "^24.3.1",
+    "@types/vscode": "^1.103.0",
+    "vscode": "^1.1.37",
+    "vsce": "^3.0.0"
   }
 }
