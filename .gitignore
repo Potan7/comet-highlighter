@@ -6,6 +6,8 @@ out/
 dist/
 lib/
 build/
+server/bin/*
+server/obj/*
 
 # VS Code test / extension packages
 .vscode-test/
@@ -13,6 +15,8 @@ build/
 
 # Editor directories and files
 .vscode/
+.vs/*
+server/.vs/*
 .idea/
 *.sublime-*
 *.code-workspace

@@ -1,3 +1,4 @@
+import * as fs from "fs";
 import * as path from "path";
 import * as vscode from "vscode";
 import { LanguageClient, TransportKind } from "vscode-languageclient/node";
@@ -6,7 +7,12 @@ let client: LanguageClient;
 
 export async function activate(ctx: vscode.ExtensionContext) {
   // 서버 실행 파일 경로 (dll → dotnet 실행, 또는 단일 exe 가능)
-  const serverPath = ctx.asAbsolutePath(path.join("server", "CometLangServer.dll"));
+  const serverPath = path.join(__dirname, "..", "..", "server", "bin", "Release", "net8.0", "CometLangServer.dll");
+  if (!fs.existsSync(serverPath)) {
+    vscode.window.showErrorMessage("Comet LSP server not found. Please ensure it is built and located at: " + serverPath);
+    return;
+  }
+
   const serverOptions = { 
     command: "dotnet", 
     args: [serverPath], 
@@ -40,7 +46,7 @@ export async function activate(ctx: vscode.ExtensionContext) {
       });
     })
   );
-  console.log("Comet LSP activated");
+  console.log("Comet LSP activated, Path: " + serverPath);
 }
 
 export function deactivate() { 

@@ -3,7 +3,7 @@
   "license": "MIT",
   "displayName": "Comet Highlighter",
   "description": "This is the highlighter of comet(datapack compiler) by 40planet",
-  "version": "1.0.11",
+  "version": "1.1.0",
   "publisher": "alexmonkey05",
   "repository": {
     "type": "git",
@@ -45,10 +45,11 @@
     ]
   },
   "scripts": {
+    "build:server": "dotnet build ../server/CometLangServer.csproj -c Release",
+    "build:client": "npm ci && npm run compile",
+    "build": "npm run build:server && npm run build:client",
     "compile": "tsc -p ./",
-    "watch": "tsc -p ./ -w",
-    "build": "npm run compile",
-    "vscode:prepublish": "npm run build",
+    "watch:client": "npm run watch",
     "package": "vsce package"
   },
   "dependencies": {
@@ -60,10 +61,5 @@
     "@vscode/vsce": "^3.6.0",
     "typescript": "^5.6.3",
     "vscode": "^1.1.37"
-  },
-  "activationEvents": [
-    "onLanguage:planet",
-    "onCommand:comet.compile"
-  ]
-
+  }
 }
