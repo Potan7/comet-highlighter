@@ -40,6 +40,7 @@ export async function activate(ctx: vscode.ExtensionContext) {
       });
     })
   );
+  console.log("Comet LSP activated");
 }
 
 export function deactivate() { 

@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v8.0": {
       "CometLangServer/1.0.0": {
         "dependencies": {
+          "OmniSharp.Extensions.LanguageProtocol": "0.19.9",
           "OmniSharp.Extensions.LanguageServer": "0.19.9"
         },
         "runtime": {
