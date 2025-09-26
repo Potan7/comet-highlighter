@@ -1,0 +1,35 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build:server",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "server/CometLangServer.csproj",
+        "-c", "Release",
+        "-v", "minimal"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build:client",
+      "type": "npm",
+      "script": "compile",
+      "path": "client/",
+      "problemMatcher": "$tsc"
+    },
+    {
+      "label": "build:all",
+      "dependsOn": [
+        "build:server",
+        "build:client"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

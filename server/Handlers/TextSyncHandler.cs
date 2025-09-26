@@ -1,24 +1,28 @@
-using System.Text.RegularExpressions;
-using OmniSharp.Extensions.LanguageServer.Protocol;
-using OmniSharp.Extensions.LanguageServer.Protocol.Models;
-using OmniSharp.Extensions.LanguageServer.Protocol.Document;
-using OmniSharp.Extensions.LanguageServer.Protocol.Server;
-using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
+using CometLangServer.Analysis;
 using MediatR;
+using OmniSharp.Extensions.LanguageServer.Protocol;
+using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
+using OmniSharp.Extensions.LanguageServer.Protocol.Document;
+using OmniSharp.Extensions.LanguageServer.Protocol.Models;
+using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server.Capabilities;
-
-using LspRange = OmniSharp.Extensions.LanguageServer.Protocol.Models.Range;
-using LspPosition = OmniSharp.Extensions.LanguageServer.Protocol.Models.Position;
+using OmniSharp.Extensions.LanguageServer.Protocol.Window;
 
 namespace CometLangServer.Handlers;
 
 public class TextSyncHandler : ITextDocumentSyncHandler
 {
+    private readonly DocumentManager _documentManager;
+
     private readonly ILanguageServerFacade _server;
-    public TextSyncHandler(ILanguageServerFacade server) => _server = server;
+    public TextSyncHandler(ILanguageServerFacade server, DocumentManager documentManager)
+    {
+        _server = server;
+        _documentManager = documentManager;
+    }
 
     // 변경 감지 방식
-    public TextDocumentSyncKind Change => TextDocumentSyncKind.Incremental;
+    public TextDocumentSyncKind Change => TextDocumentSyncKind.Full;
 
     // ===== 필수 Registration 4종 (명시적 구현) =====
 
@@ -57,37 +61,47 @@ public class TextSyncHandler : ITextDocumentSyncHandler
 
     // 핸들러들
     public Task<Unit> Handle(DidOpenTextDocumentParams req, CancellationToken _)
-        => ValidateAsync(req.TextDocument.Uri, req.TextDocument.Text);
+    => ValidateAsync(req.TextDocument.Uri, req.TextDocument.Text);
 
+    // SyncKind를 Full로 바꿨기 때문에, ContentChanges.First().Text에 전체 텍스트가 들어옴
     public Task<Unit> Handle(DidChangeTextDocumentParams req, CancellationToken _)
         => ValidateAsync(req.TextDocument.Uri, req.ContentChanges.First().Text);
 
-    public Task<Unit> Handle(DidCloseTextDocumentParams r, CancellationToken _)
+    public Task<Unit> Handle(DidCloseTextDocumentParams req, CancellationToken _)
     {
-        _server.TextDocument.PublishDiagnostics(new PublishDiagnosticsParams { Uri = r.TextDocument.Uri, Diagnostics = Array.Empty<Diagnostic>() });
-        return Task.FromResult(Unit.Value);
+        // 파일이 닫히면 진단 정보 클리어
+        _server.TextDocument.PublishDiagnostics(new PublishDiagnosticsParams
+        {
+            Uri = req.TextDocument.Uri,
+            Diagnostics = new Container<Diagnostic>() // 빈 목록 전달
+        });
+        return Unit.Task;
     }
 
-    public Task<Unit> Handle(DidSaveTextDocumentParams r, CancellationToken _) => Task.FromResult(Unit.Value);
+    public Task<Unit> Handle(DidSaveTextDocumentParams req, CancellationToken _) => Unit.Task;
 
-    // 진단 로직
+    // 진단 로직을 DocumentManager 호출로 변경
     private Task<Unit> ValidateAsync(DocumentUri uri, string text)
     {
-        var diags = new List<Diagnostic>();
-
-        var m = Regex.Match(text, @"\bTODO\b");
-        if (m.Success)
+        // _server.Window.LogInfo($"Validating {uri}...");
+        try
         {
-            diags.Add(new Diagnostic
-            {
-                Severity = DiagnosticSeverity.Warning,
-                Message = "Resolve TODO",
-                Range = new LspRange(new LspPosition(0, 0), new LspPosition(0, 4)),
-                Source = "planet"
-            });
-        }
+            // DocumentManager를 통해 파싱하고 진단 결과를 받아옴
+            var diagnostics = _documentManager.UpdateDocument(uri.ToString(), text);
 
-        _server.TextDocument.PublishDiagnostics(new PublishDiagnosticsParams { Uri = uri, Diagnostics = diags });
-        return Task.FromResult(Unit.Value);
+            // 서버를 통해 VS Code 클라이언트로 진단 정보 전송
+            _server.TextDocument.PublishDiagnostics(new PublishDiagnosticsParams
+            {
+                Uri = uri,
+                Diagnostics = new Container<Diagnostic>(diagnostics)
+            });
+
+            // _server.Window.LogInfo($"Validated {uri}, found {diagnostics.Count} issues.");
+        }
+        catch (Exception ex)
+        {
+            _server.Window.LogError($"Validation error: {ex}");
+        }
+        return Unit.Task;
     }
 }

@@ -14,7 +14,6 @@ server/obj/*
 *.vsix
 
 # Editor directories and files
-.vscode/
 .vs/*
 server/.vs/*
 .idea/

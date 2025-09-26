@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as vscode from "vscode";
-import { LanguageClient, TransportKind } from "vscode-languageclient/node";
+import { LanguageClient, TransportKind, Trace  } from "vscode-languageclient/node";
 
 let client: LanguageClient;
 
@@ -24,7 +24,8 @@ export async function activate(ctx: vscode.ExtensionContext) {
     documentSelector: [
       { scheme: "file", language: "planet" },   // 파일 저장소 내 .planet 파일
       { scheme: "untitled", language: "planet" } // 아직 저장 안 한 임시 문서도 인식
-    ]
+    ],
+    outputChannelName: "Planet LSP",
   };
 
   client = new LanguageClient(
@@ -36,6 +37,8 @@ export async function activate(ctx: vscode.ExtensionContext) {
 
   ctx.subscriptions.push(client);
   client.start();
+
+  client.setTrace(Trace.Verbose);
 
   // 명령 → 서버 ExecuteCommand 호출
   ctx.subscriptions.push(

@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Analys\**" />
+    <EmbeddedResource Remove="Analys\**" />
+    <None Remove="Analys\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Antlr4.Runtime.Standard" Version="4.13.1" />
     <PackageReference Include="OmniSharp.Extensions.LanguageServer" Version="0.19.9" />
     <PackageReference Include="OmniSharp.Extensions.LanguageProtocol" Version="0.19.9" />
   </ItemGroup>
